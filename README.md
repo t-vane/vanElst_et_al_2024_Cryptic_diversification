@@ -35,13 +35,13 @@ Input and output files can be found in the [Dryad digital repository](https://do
 
 `./Acoustic_communication` contains scripts to estimate differentiation in acoustic communication.
 
-`./Reproductive_activity` contains scripts estimate differentiation in reproductive activity.
+`./Reproductive_activity` contains scripts to estimate differentiation in reproductive activity.
 
 ### Divergence time estimation
 `./Divergence_time_estimation` contains scripts to infer divergence times from phased RAD loci under a coalescent model in [BPP v4.4.1](https://github.com/bpp/bpp).
 
 ### Biogeographic reconstruction
-`./Biogeographic_reconstruction` contains scripts to ancestral biogeogeography in the R package ['BioGeoBEARS' v1.1.2](https://github.com/nmatzke/BioGeoBEARS).
+`./Biogeographic_reconstruction` contains scripts to infer ancestral biogeogeography in the R package ['BioGeoBEARS' v1.1.2](https://github.com/nmatzke/BioGeoBEARS).
 
 ### Modelling morphological and climatic niche evolution
 `./Modelling_morphological_and_climatic_niche_evolution` contains the following subdirectories:
