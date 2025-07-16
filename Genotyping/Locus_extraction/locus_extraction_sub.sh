@@ -57,12 +57,12 @@ bcftools view -S $ind_file $vcf_filt_mask_full > $vcf_filt_mask
 #### 1 CREATE MASKED REFERENCE GENOME PER INDIVIDUAL ####
 #################################################################
 ## Create BED file with masked sites from VCF
-sbatch --job-name=locus_extract_pip --account=nib00015 --output=$out_dir/logFiles/01_maskbed.$set_id.oe $scripts_dir/01_maskbed.sh $vcf_altref $vcf_filt_mask $bed_removed_sites $bed_dir
+sbatch --account=nib00015 --output=$out_dir/logFiles/01_maskbed.$set_id.oe $scripts_dir/01_maskbed.sh $vcf_altref $vcf_filt_mask $bed_removed_sites $bed_dir
 
 ## Produce masked FASTA file per individual
 suffix=auto
 min_dp=2
-sbatch --job-name=locus_extract_pip --dependency=singleton --account=nib00015 --array=1-$no_inds --output=$out_dir/logFiles/02_process-inds.%A_%a.$set_id.oe $scripts_dir/02_process-inds.sh \
+sbatch --account=nib00015 --array=1-$no_inds --output=$out_dir/logFiles/02_process-inds.%A_%a.$set_id.oe $scripts_dir/02_process-inds.sh \
 	$ind_file $vcf_altref $reference $bam_dir $suffix $min_dp $indfasta_dir $bed_dir $bed_removed_sites
 
 #################################################################
@@ -76,29 +76,29 @@ max_dist_within_ind=10 # Maximum distance within individuals
 max_dist_between_ind=0 # Maximum distance between individuals
 min_elem_size=25 # Minimum locus size
 last_row=0 # Number of loci to process (all if 0)
-sbatch --job-name=locus_extract_pip --dependency=singleton --account=nib00015 --output=$out_dir/logFiles/03a_makelocusbed.$set_id.oe $scripts_dir/03a_makelocusbed.sh $scripts_dir $set_id $ind_file $bed_dir $locusbed_intermed \
+sbatch --account=nib00015 --output=$out_dir/logFiles/03a_makelocusbed.$set_id.oe $scripts_dir/03a_makelocusbed.sh $scripts_dir $set_id $ind_file $bed_dir $locusbed_intermed \
 	$min_elem_ovl $min_elem_ovl_trim $min_locus_size $max_dist_within_ind $max_dist_between_ind $min_elem_size $last_row
 
 ## Intersection of BED file with loci with too high depth not necessary since these were already filtered out earlier (see genotype call filtering)
 locusbed_final=$locusbed_intermed
 
 ## Get merged FASTA file with all individuals and loci
-sbatch --job-name=locus_extract_pip --dependency=singleton --account=nib00015 --output=$out_dir/logFiles/03c_mergedfasta.$set_id.oe $scripts_dir/03c_mergedfasta.sh $ind_file $indfasta_dir $locusbed_final $locuslist $fasta_merged
+sbatch --account=nib00015 --output=$out_dir/logFiles/03c_mergedfasta.$set_id.oe $scripts_dir/03c_mergedfasta.sh $ind_file $indfasta_dir $locusbed_final $locuslist $fasta_merged
 
 ## Create by-locus FASTA files
 nloci=$(cat $locuslist | wc -l)
-sbatch --job-name=locus_extract_pip --dependency=singleton --account=nib00015 --array=1-$nloci --output=$out_dir/logFiles/03d_locusfasta.%A_%a.$set_id.oe $scripts_dir/03d_locusfasta.sh $locuslist $locusfasta_dir_intermed $fasta_merged
+sbatch --account=nib00015 --array=1-$nloci --output=$out_dir/logFiles/03d_locusfasta.%A_%a.$set_id.oe $scripts_dir/03d_locusfasta.sh $locuslist $locusfasta_dir_intermed $fasta_merged
 
 ## Estimate statistics for intermediate loci
-sbatch --job-name=locus_extract_pip --dependency=singleton --account=nib00015 --output=$out_dir/logFiles/03e_locusstats_intermed.$set_id.oe $scripts_dir/03e_locusstats.sh $locusfasta_dir_intermed $locusstats_intermed
+sbatch --account=nib00015 --output=$out_dir/logFiles/03e_locusstats_intermed.$set_id.oe $scripts_dir/03e_locusstats.sh $locusfasta_dir_intermed $locusstats_intermed
 
-## Filter loci for maximum proportion of missing data and minimum distance between loci (submitted twice with different maxmiss because a reduced locus set is used for G-PhoCS)
+## Filter loci for maximum proportion of missing data and minimum distance between loci
 maxmiss=15 # Maximum percentage of missing data in percent
 mindist=10000 # Minimum distance (bp) between loci
-sbatch --job-name=locus_extract_pip --dependency=singleton --account=nib00015 --output=$out_dir/logFiles/03f_filterloci.$set_id.oe $scripts_dir/03f_filterloci.sh $locusstats_intermed $locusfasta_dir_intermed $locusfasta_dir_final $maxmiss $mindist
+sbatch --account=nib00015 --output=$out_dir/logFiles/03f_filterloci.$set_id.oe $scripts_dir/03f_filterloci.sh $locusstats_intermed $locusfasta_dir_intermed $locusfasta_dir_final $maxmiss $mindist
 
-## Estimate statistics for final loci (submitted twice with because a reduced locus set is used for G-PhoCS)
-sbatch --job-name=locus_extract_pip --dependency=singleton --account=nib00015 --output=$out_dir/logFiles/03e_locusstats_final.$set_id.oe $scripts_dir/03e_locusstats.sh $locusfasta_dir_final $locusstats_final
+## Estimate statistics for final loci
+sbatch --account=nib00015 --output=$out_dir/logFiles/03e_locusstats_final.$set_id.oe $scripts_dir/03e_locusstats.sh $locusfasta_dir_final $locusstats_final
 
 ## Archive and remove intermediate locus files
 for i in 03366 03367 03368 03369

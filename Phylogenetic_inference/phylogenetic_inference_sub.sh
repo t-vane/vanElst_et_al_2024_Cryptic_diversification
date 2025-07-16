@@ -21,7 +21,7 @@ format=phylip # Output format of alignment (phylip or nexus)
 for i in 0.05 0.25 0.5 0.75 0.95
 do
 format=phylip # Output format of alignment (phylip or nexus)
-sbatch --account=nib00015 --job-name=ml_inference_maxmiss$i --output=$phyl_dir/logFiles/vcf_convert.ml.$format.$set_id.maxmiss$i.oe $scripts_dir/vcf_convert.sh $scripts_dir $vcf_dir/allScaffolds.annot.SNP.minInd.DP.mac.GATKfilt-hard.maxmiss$i.vcf $phyl_dir/ml $format
+sbatch --account=nib00015 --output=$phyl_dir/logFiles/vcf_convert.ml.$format.$set_id.maxmiss$i.oe $scripts_dir/vcf_convert.sh $scripts_dir $vcf_dir/allScaffolds.annot.SNP.minInd.DP.mac.GATKfilt-hard.maxmiss$i.vcf $phyl_dir/ml $format
 done
 
 ## Run phylogenetic inference with ascertainment bias correction in IQ-TREE
@@ -42,7 +42,7 @@ then
 # Declare directory to save checkpoint files (will be created in submitted script)
 check_out=$out_dir/checkpoint_$j
 # Submit job and save submission ID
-jid=$(sbatch --account=nib00015 --job-name=ml_inference_maxmiss$i --dependency=singleton --output=$out_dir/iqtree.$set_id.maxmiss$i.job$j.oe $scripts_dir/iqtree_checkpoint.sh $phyl_dir/ml/allScaffolds.annot.SNP.minInd.DP.mac.GATKfilt-hard.maxmiss$i.noinv.phy $out_dir/allScaffolds.annot.SNP.minInd.DP.mac.GATKfilt-hard.maxmiss$i.noinv $ufboot $check_out)
+jid=$(sbatch --account=nib00015 --output=$out_dir/iqtree.$set_id.maxmiss$i.job$j.oe $scripts_dir/iqtree_checkpoint.sh $phyl_dir/ml/allScaffolds.annot.SNP.minInd.DP.mac.GATKfilt-hard.maxmiss$i.noinv.phy $out_dir/allScaffolds.annot.SNP.minInd.DP.mac.GATKfilt-hard.maxmiss$i.noinv $ufboot $check_out)
 declare runid_$j=${jid##* }
 
 # If not first script:
@@ -62,7 +62,6 @@ done
 
 done
 
-
 #################################################################
 #### 2 QUARTET-BASED INFERENCE FOR INDIVIDUAL AND POPULATION ASSIGNMENT ####
 #################################################################
@@ -75,7 +74,7 @@ vcftools --vcf $vcf_dir/allScaffolds.annot.SNP.minInd.DP.mac.GATKfilt-hard.maxmi
 
 ## Convert VCF file to NEXUS format and calculate basic alignment statistics
 format=nexus # Output format of alignment (phylip or nexus)
-sbatch --account=nib00015 --wait --output=$phyl_dir/logFiles/vcf_convert.quartet.$format.$set_id.maxmiss$i.oe $scripts_dir/vcf_convert.sh $scripts_dir $vcf_dir/allScaffolds.annot.SNP.minInd.DP.mac.GATKfilt-hard.maxmiss$i.thin10k.vcf $phyl_dir/quartet $format
+sbatch --account=nib00015 --output=$phyl_dir/logFiles/vcf_convert.quartet.$format.$set_id.maxmiss$i.oe $scripts_dir/vcf_convert.sh $scripts_dir $vcf_dir/allScaffolds.annot.SNP.minInd.DP.mac.GATKfilt-hard.maxmiss$i.thin10k.vcf $phyl_dir/quartet $format
 
 ## Create taxon partitions block files
 # For population assignment, the file was created manually and saved as $phyl_dir/quartet/$set_id.maxmiss$i.paup.population.nex
@@ -116,7 +115,7 @@ echo "END;" >> $phyl_dir/quartet/$set_id.maxmiss$i.paup.individual.nex
 for j in population individual
 do
 	cat $phyl_dir/quartet/allScaffolds.annot.SNP.minInd.DP.mac.GATKfilt-hard.maxmiss$i.thin10k.noinv.nex $phyl_dir/quartet/$set_id.maxmiss$i.taxPartitions.$j.nex $phyl_dir/quartet/$set_id.maxmiss$i.paup.$j.nex > $phyl_dir/quartet/$set_id.maxmiss$i.paup.$j.concat.nex
-	sbatch --job-name=quartet_inference --output=$phyl_dir/logFiles/svdq.$set_id.maxmiss$i.oe $scripts_dir/svdq.sh $phyl_dir/quartet/$set_id.maxmiss$i.paup.$j.concat.nex $phyl_dir/quartet/$set_id.maxmiss$i.paup.$j.concat.nex.log
+	sbatch --output=$phyl_dir/logFiles/svdq.$set_id.maxmiss$i.oe $scripts_dir/svdq.sh $phyl_dir/quartet/$set_id.maxmiss$i.paup.$j.concat.nex $phyl_dir/quartet/$set_id.maxmiss$i.paup.$j.concat.nex.log
 done
 
 done

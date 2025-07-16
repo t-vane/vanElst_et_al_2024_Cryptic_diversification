@@ -34,17 +34,11 @@ do
 	in_file=$angsd_dir/angsd_$i.txt # List of samples (without file extensions) that shall be included for global genotype likelihood estimation, separated by sequencing mode (PE or SE)
 	no_inds=$(cat $in_file | wc -l)
 
-	sbatch --account=nib00015 --array=1-$no_inds --job-name=GL_$set_id --dependency=singleton --output=$angsd_dir/logFiles/bamHits.$set_id.%A_%a.oe $scripts_dir/coverage.sh $i $in_file $bam_dir $angsd_dir/bamHits
+	sbatch --account=nib00015 --array=1-$no_inds  --output=$angsd_dir/logFiles/bamHits.$set_id.%A_%a.oe $scripts_dir/coverage.sh $i $in_file $bam_dir $angsd_dir/bamHits
 done
 
 # Estimate and plot coverage distributions for each individual
-sbatch --account=nib00015 --job-name=GL_$set_id --dependency=singleton --output=$angsd_dir/logFiles/cov_plot.$set_id.oe $scripts_dir/cov_plot.sh $scripts_dir $in_file_all $angsd_dir/bamHits $set_id
-
-# Wait until minmax.txt files have been created
-until [ -f $angsd_dir/bamHits/statistics/$set_id.minmax.txt ]
-do
-	sleep 30m
-done
+sbatch --account=nib00015 --output=$angsd_dir/logFiles/cov_plot.$set_id.oe $scripts_dir/cov_plot.sh $scripts_dir $in_file_all $angsd_dir/bamHits $set_id
 
 # Set thresholds for ANGSD
 mindepthind=$(cat $angsd_dir/bamHits/statistics/$set_id.minmax.txt | cut -d " " -f2 | sort -n | head -1) # Minimum depth per individual
@@ -64,7 +58,7 @@ done < $in_file_all
 # Run ANGSD scripts
 filters="-setMinDepth $gmin -setMaxDepth $gmax -setMaxDepthInd $maxdepthind -setMinDepthInd $mindepthind -minInd $minind -SNP_pval 1e-5 -minQ 20 -minMapQ 20 -minMaf 0.05 -uniqueOnly 1 -remove_bads 1 -skipTriallelic 1 -only_proper_pairs 1 -baq 1 -C 50"
 todo="-GL 1 -doGlf 2 -doMaf 1 -doMajorMinor 1 -doCounts 1"
-sbatch --account=nib00015 --job-name=GL_$set_id --dependency=singleton --output=$angsd_dir/logFiles/angsd.$set_id.oe $scripts_dir/angsd.sh $nt $reference $angsd_dir/$set_id.bamlist "$todo" "$filters" $angsd_dir/$set_id
+sbatch --account=nib00015 --output=$angsd_dir/logFiles/angsd.$set_id.oe $scripts_dir/angsd.sh $nt $reference $angsd_dir/$set_id.bamlist "$todo" "$filters" $angsd_dir/$set_id
 
 done
 

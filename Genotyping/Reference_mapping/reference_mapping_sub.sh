@@ -18,7 +18,7 @@ samtools=true # Boolean specifying whether to create index with SAMtools
 gatk=true # Boolean specifying whether to create index with GATK (Picard)
 
 ## Submit indexing script
-sbatch --wait --output=$reference_dir/logFiles/indexing.$prefix.oe $scripts_dir/indexing.sh $reference $bwa $bwa_index $samtools $gatk
+sbatch --output=$reference_dir/logFiles/indexing.$prefix.oe $scripts_dir/indexing.sh $reference $bwa $bwa_index $samtools $gatk
 
 #################################################################
 #### 1 ALIGN TRIMMED READS TO REFERENCE GENOME AND FILTER ####
