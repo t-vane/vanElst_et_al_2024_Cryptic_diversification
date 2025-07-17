@@ -17,10 +17,6 @@ conda activate R
 
 burnin=100000 # Burn-in
 last_sample=900000 # Last MCMC sample to be considered
-mutrate=1.236 # Gamma distribution of mutation rate will have mean $mutrate * 10e-8
-mutrate_var=0.107 # Gamma distribution of mutation rate will have variance $mutrate_var * 10e-8
-gentime=3.5 # Lognormal distribution of generation time will have mean ln($gentime)
-gentime_sd=1.16 # Lognormal distriubtion of generation time will have standard deviation ln($gentime_sd)
 
 ## Convert MCMCM files
 replicates=4
