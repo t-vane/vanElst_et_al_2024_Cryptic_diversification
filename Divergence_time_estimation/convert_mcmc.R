@@ -7,7 +7,7 @@ args <- commandArgs(trailingOnly = TRUE)
 wd <- args[1]
 mcmc_file <- args[2]
 out_file <- args[3]
-mutrate_gen <- as.numeric(args[4])
+mutrate <- as.numeric(args[4])
 mutrate_var <- ifelse(length(args) >= 11, as.numeric(args[5]), NA)
 gentime <- as.numeric(args[6])
 gentime_sd <- ifelse(length(args) >= 11, as.numeric(args[7]), NA)
@@ -61,8 +61,8 @@ if (distribution) {
   gentime_dist <- rlnorm(n, meanlog = log(gentime), sdlog = log(gentime_sd))
 
   # Mutation rate: gamma distribution, scaled down to per-site
-  shape <- mutrate_gen^2 / mutrate_var
-  rate <- mutrate_gen / mutrate_var
+  shape <- mutrate^2 / mutrate_var
+  rate <- mutrate / mutrate_var
   mutrate_dist <- rgamma(n, shape = shape, rate = rate) * 1e-8
 
   # Scale theta and tau
@@ -71,10 +71,10 @@ if (distribution) {
 
 } else {
   # Use fixed point estimates (mutation rate in per-site units)
-  mutrate_gen <- mutrate_gen * 1e-8
+  mutrate <- mutrate * 1e-8
 
-  mcmc[, theta_cols] <- mcmc[, theta_cols] / (4 * mutrate_gen)
-  mcmc[, tau_cols] <- mcmc[, tau_cols] * gentime / mutrate_gen / 1000  # output in ky
+  mcmc[, theta_cols] <- mcmc[, theta_cols] / (4 * mutrate)
+  mcmc[, tau_cols] <- mcmc[, tau_cols] * gentime / mutrate / 1000  # output in ky
 }
 
 # Save output

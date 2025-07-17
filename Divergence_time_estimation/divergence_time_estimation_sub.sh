@@ -88,14 +88,14 @@ replicates=4
 
 for j in $(seq 1 $replicates)
 do
-out_dir=$div_dir/run_$replicate
-ctrl_file=$out_dir/A00.bpp.6k.40threads.run${replicate}.ctl
+out_dir=$div_dir/run_$j
+ctrl_file=$out_dir/A00.bpp.6k.40threads.run$j.ctl
 
 mkdir -p $out_dir
 
 for i in $(seq 1 $njobs)
 do
-echo -e "#### Submitting job $i of run $j"
+echo -e "... Submitting job $i of run $j"
 # If first script:
 if [ $i == 1 ]
 then
@@ -135,34 +135,32 @@ gentime=3.5 # Lognormal distribution of generation time will have mean ln($genti
 gentime_sd=1.16 # Lognormal distriubtion of generation time will have standard deviation ln($gentime_sd)
 
 ## Convert MCMC estimates of single chains to divergence time in years and effective population size and create summary trees
-for i in $(seq 1 $replicates)
+for j in $(seq 1 $replicates)
 do
-echo "#### Processing run $i"
-mcmc_file=$div_dir/run_$replicate/mcmc.run$i.txt
+echo "... Processing run $i"
+mcmc_file=$div_dir/run_$j/mcmc.run$i.txt
 
 for i in dist nodist
 do
 [ "$i" = "dist" ] && dist=TRUE || dist=FALSE
-Rscript $scripts_dir/convert_mcmc.R $div_dir/run_$replicate $mcmc_file $div_dir/run_$replicate/mcmc.run$i.conv.$i.txt $mutrate_gen $mutrate_var $gentime $gentime_sd $burnin $last_sample $dist
+Rscript $scripts_dir/convert_mcmc.R $div_dir/run_$j $mcmc_file $div_dir/run_$j/mcmc.run$j.conv.$i.txt $mutrate_gen $mutrate_var $gentime $gentime_sd $burnin $last_sample $dist
 done
 
 # Create tree
-bpp --summary $out_dir/A00.bpp.6k.40threads.run${replicate}.ctl
+bpp --summary $out_dir/A00.bpp.6k.40threads.run$j.ctl
 done
 
 
 ## Average chains and create tree
-mkdir -p $div_dir/run_average
-
 for i in dist nodist
 do
-chains=()
-for r in $(seq 1 $replicates)
-do
-  chains+=("$div_dir/run_$replicate/mcmc.run$r.conv.$i.txt")
-done
-
 # Average chains
+mkdir -p $div_dir/run_average
+chains=()
+for j in $(seq 1 $replicates)
+do
+  chains+=("$div_dir/run_$j/mcmc.run$j.conv.$i.txt")
+done
 Rscript $scripts_dir/average_chains.R "${chains[@]}" $div_dir/run_average/mcmc.mean.convert.$i.txt
 
 # Create tree
