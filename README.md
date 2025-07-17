@@ -41,7 +41,7 @@ Input and output files can be found in the [Dryad digital repository](https://do
 `./Divergence_time_estimation` contains scripts to infer divergence times from phased RAD loci under a coalescent model in [BPP v4.4.1](https://github.com/bpp/bpp).
 
 ### Biogeographic reconstruction
-`./Biogeographic_reconstruction` contains scripts to infer ancestral biogeogeography in the R package ['BioGeoBEARS' v1.1.2](https://github.com/nmatzke/BioGeoBEARS).
+`./Biogeographic_reconstruction` contains scripts to infer ancestral biogeogeography in the R package ['BioGeoBEARS' v1.1.2](https://github.com/nmatzke/BioGeoBEARS) and habitat-associated speciation rates in the R package ['diversitree' v0.9-16](https://www.zoology.ubc.ca/prog/diversitree/).
 
 ### Modelling morphological and climatic niche evolution
 `./Modelling_morphological_and_climatic_niche_evolution` contains the following subdirectories:
@@ -51,3 +51,4 @@ Input and output files can be found in the [Dryad digital repository](https://do
 `./Morphological_evolution` contains scripts to model the evolution of morphology along the inferred *Microcebus* phylogeny, including cross-validation.
 
 Modelling was conducted with the R packages ['phytools' v2.3-0](https://cran.r-project.org/web/packages/phytools/index.html), ['dynRB' v0.18](https://cran.r-project.org/web/packages/dynRB/index.html), ['phyloclim' v0.9.5](https://cran.r-project.org/web/packages/phyloclim/index.html), ['mvMORPH' v1.1.9](https://github.com/JClavel/mvMORPH), ['tmvtnorm' v1.6](https://github.com/cran/tmvtnorm).
+
