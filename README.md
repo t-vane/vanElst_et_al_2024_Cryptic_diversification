@@ -27,7 +27,7 @@ Input and output files can be found in the [Dryad digital repository](https://do
 ### Species delimitation
 `./Species_delimitation` contains the following subdirectories:
 
-`./Genomics` contains scripts to test for genomic patterns of isolation-by-distance, infer individual ancestries with [NGSadmix v32](https://www.popgen.dk/software/index.php/NgsAdmix), and estimate of genealogical divergence indices (*gdi*) between candidate species. 
+`./Genomics` contains scripts to infer individual ancestries with [NGSadmix v32](https://www.popgen.dk/software/index.php/NgsAdmix) and to estimate of genealogical divergence indices (*gdi*) between candidate species. Scripts to test for genomic patterns of isolation-by-distance can be found [here](https://github.com/gsgarlata/Isolation-by-distance-within-vs-between-species/tree/main).
 
 `./Morphometry` contains scripts to estimate overlap in morphometry in the R package ['dynRB' v0.18](https://cran.r-project.org/web/packages/dynRB/index.html) and test for morphometric patterns of isolation-by-distance.
 
