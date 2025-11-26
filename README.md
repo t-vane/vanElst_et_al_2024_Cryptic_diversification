@@ -7,6 +7,7 @@ This repository holds scripts for the following analyses conducted as part of th
 - Divergence time estimation
 - Biogeographic reconstruction
 - Modelling morphological and climatic niche evolution
+- Plots
 
 Input and output files can be found in the [Dryad digital repository](https://doi.org/10.5061/dryad.b2rbnzsp3). 
 
@@ -52,3 +53,5 @@ Input and output files can be found in the [Dryad digital repository](https://do
 
 Modelling was conducted with the R packages ['phytools' v2.3-0](https://cran.r-project.org/web/packages/phytools/index.html), ['dynRB' v0.18](https://cran.r-project.org/web/packages/dynRB/index.html), ['phyloclim' v0.9.5](https://cran.r-project.org/web/packages/phyloclim/index.html), ['mvMORPH' v1.1.9](https://github.com/JClavel/mvMORPH), ['tmvtnorm' v1.6](https://github.com/cran/tmvtnorm).
 
+### Plots
+`./Plots` contains scripts for various plots generated in R for the publication.

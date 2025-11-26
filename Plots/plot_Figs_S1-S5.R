@@ -8,8 +8,11 @@ library("ggnewscale")
 library("ggplot2")
 
 ## Set root and outgroup samples
-root=c("Cheirogaleuscro_106189", "Cheirogaleusmaj_106245", "Cheirogaleusmed_106354")
-out=c("Cheirogaleuscro_106189", "Cheirogaleusmaj_106245", "Cheirogaleusmed_106354","Mirzazaz_DLC2316m","Mirzazaz_DLC319m","Mirzazaz_DLC323f")
+root <- c("Cheirogaleuscro_106189", "Cheirogaleusmaj_106245", "Cheirogaleusmed_106354")
+out <- c("Cheirogaleuscro_106189", "Cheirogaleusmaj_106245", "Cheirogaleusmed_106354","Mirzazaz_DLC2316m","Mirzazaz_DLC319m","Mirzazaz_DLC323f")
+
+## Read coloration file
+colors_prelim <- as.data.frame(read.csv("colors.csv", header = TRUE))
 
 ## Loop over five different thresholds of missing data
 thresholds <- c(0.05, 0.25, 0.5, 0.75, 0.95)
@@ -28,7 +31,6 @@ for th in thresholds {
     tree2 <- drop.tip(tree2, tip = out)
 
     # Set coloring
-    colors_prelim <- as.data.frame(read.csv("colors.csv", header = TRUE))
     colors1 <- colors_prelim %>% arrange(factor(individual, levels = tree1$tip.label))
     colors2 <- colors_prelim %>% arrange(factor(individual, levels = tree2$tip.label))
     colors_lines <- rbind(colors1,colors2)
