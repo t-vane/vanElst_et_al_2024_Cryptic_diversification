@@ -49,7 +49,7 @@ for th in thresholds {
         xlim_tree(0.25)
     d2 <- p2$data
 
-    ## Reverse x-axis and set offset for right tree
+    # Reverse x-axis and set offset for right tree
     d2$x <- d2$x/200
     d2$x <- max(d2$x) - d2$x + max(d1$x) + 0.1
 
