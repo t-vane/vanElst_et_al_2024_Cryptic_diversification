@@ -54,4 +54,4 @@ Input and output files can be found in the [Dryad digital repository](https://do
 Modelling was conducted with the R packages ['phytools' v2.3-0](https://cran.r-project.org/web/packages/phytools/index.html), ['dynRB' v0.18](https://cran.r-project.org/web/packages/dynRB/index.html), ['phyloclim' v0.9.5](https://cran.r-project.org/web/packages/phyloclim/index.html), ['mvMORPH' v1.1.9](https://github.com/JClavel/mvMORPH), ['tmvtnorm' v1.6](https://github.com/cran/tmvtnorm).
 
 ### Plots
-`./Plots` contains scripts for various plots generated in R for the publication.
+`./Plots` contains scripts for various plots that were generated in R for the publication.

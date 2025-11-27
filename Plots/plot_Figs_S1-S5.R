@@ -1,11 +1,11 @@
 ### Script to generate Supplementary Figures S1-S5 of van Elst et al. (2025), Nature Ecology & Evolution (https://doi.org/10.1038/s41559-024-02547-w)
 
-library("ggtree")
 library("ape")
-library("phytools")
 library("dplyr")
 library("ggnewscale")
 library("ggplot2")
+library("ggtree")
+library("phytools")
 
 ## Set root and outgroup samples
 root <- c("Cheirogaleuscro_106189", "Cheirogaleusmaj_106245", "Cheirogaleusmed_106354")
@@ -64,7 +64,7 @@ for th in thresholds {
     dd$x[209:416] <- dd$x[209:416] - 0.025
 
     # Final plot
-    pdf(paste0("S_phylogeny_iqtree_svdq_",th, ".pdf"), height = 60, width = 40)
+    pdf(paste0("Figs_S1-S5_",th, ".pdf"), height = 60, width = 40)
     p1 + 
         geom_tree(data=d2, size = 1.2) + 
         ggnewscale::new_scale_fill() + 
