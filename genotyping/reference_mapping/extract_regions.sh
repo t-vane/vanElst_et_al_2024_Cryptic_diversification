@@ -42,7 +42,7 @@ then
 	
 	echo -e "#### extract_regions.sh: Removing chromosomes $exclude from header for paired-end individual $indv ...\n"
 	samtools view -H $bam_dir/$indv.MQ$minmapq.pp.dedup.$suffix.bam | egrep -v $exclude > $bam_dir/$indv.fixedhead
-	cat $bam_dir/$indv.fixedhead <(samtools view $bam_dir/$indv.MQ$minmapq.pp.dedup.$suffix.bam) | samtools view -bo $bam_dir/$indv.MQ$minmapq.pp.dedup.$suffix.bam
+	cat $bam_dir/$indv.fixedhead <(samtools view $bam_dir/$indv.MQ$minmapq.pp.dedup.$suffix.bam) | samtools view -bo $bam_dir/$indv.$suffix.bam
 	rm $bam_dir/$indv.fixedhead
 elif [[ $mode == "SE" ]]
 	echo -e "#### extract_regions.sh: Extraction of genomic regions provided in $bed for single-end individual $indv ...\n"
@@ -50,7 +50,7 @@ elif [[ $mode == "SE" ]]
 	
 	echo -e "#### extract_regions.sh: Removing chromosomes $exclude from header for single-end individual $indv ...\n"
 	samtools view -H $bam_dir/$indv.MQ$minmapq.$suffix.bam | egrep -v $exclude > $bam_dir/$indv.fixedhead
-	cat $bam_dir/$indv.fixedhead <(samtools view $bam_dir/$indv.MQ$minmapq.$suffix.bam) | samtools view -bo $bam_dir/$indv.MQ$minmapq.$suffix.bam
+	cat $bam_dir/$indv.fixedhead <(samtools view $bam_dir/$indv.MQ$minmapq.$suffix.bam) | samtools view -bo $bam_dir/$indv.$suffix.bam
 	rm $bam_dir/$indv.fixedhead
 else
 	echo -e "#### extract_regions.sh: Invalid sequencing mode provided - only PE and SE allowed. ...\n" && exit 1

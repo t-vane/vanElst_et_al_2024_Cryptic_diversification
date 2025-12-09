@@ -41,10 +41,10 @@ echo -e "#### haplotype_caller.sh: Individual: $indv \n\n"
 #### CREATE GVCF FILE ####
 ################################################################################
 echo -e "#### haplotype_caller.sh: Indexing BAM file for individual $indv ...\n"
-[[ ! -f $bam_dir/$indv.$suffic.bai ]] && samtools index $bam_dir/$indv.$suffic
+[[ ! -f $bam_dir/$indv.$suffix.bai ]] && samtools index $bam_dir/$indv.$suffix
 
 echo -e "#### haplotype_caller.sh: Creating GVCF file for individual $indv ...\n"
-gatk --java-options "-Xmx${mem}g" HaplotypeCaller -R $reference -I $bam_dir/$indv.$suffic -O $gvcf_dir/$indv.rawvariants.g.vcf.gz -ERC GVCF --pairHMM AVX_LOGLESS_CACHING_OMP --native-pair-hmm-threads $nt
+gatk --java-options "-Xmx${mem}g" HaplotypeCaller -R $reference -I $bam_dir/$indv.$suffix -O $gvcf_dir/$indv.rawvariants.g.vcf.gz -ERC GVCF --pairHMM AVX_LOGLESS_CACHING_OMP --native-pair-hmm-threads $nt
 
 ## Report:
 echo -e "\n#### haplotype_caller.sh: Done with script."
